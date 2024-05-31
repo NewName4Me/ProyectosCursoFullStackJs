@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Envio de Emails</title>
     <link rel="stylesheet" href="dist/app.css">
+    <link rel="stylesheet" href="dist/spinner.css">
 </head>
 
 <body class="min-h-screen bg-slate-300">
@@ -33,7 +34,7 @@
                 </div>
 
                 <div id="botones" class="flex gap-5">
-                    <button type="submit"
+                    <button id="btnEnviar" type="submit"
                         class="flex-1 bg-pink-600 text-white flex justify-center gap-2 items-center p-3 opacity-50"
                         disabled>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -44,8 +45,8 @@
                         Enviar
                     </button>
 
-                    <button class="flex-1 bg-gray-800 text-white flex justify-center gap-2 items-center p-3"
-                        type="reset">
+                    <button id="btnReset"
+                        class="flex-1 bg-gray-800 text-white flex justify-center gap-2 items-center p-3" type="reset">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -55,6 +56,16 @@
                     </button>
                 </div>
             </form>
+            <div>
+                <div class=" hidden sk-chase" id="spinner">
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                </div>
+            </div>
         </div>
     </div>
 
