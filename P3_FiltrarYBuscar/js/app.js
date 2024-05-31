@@ -42,15 +42,15 @@ year.addEventListener('change',(e)=>{
     filtrarAuto();
 });
 minimo.addEventListener('change',(e)=>{
-    datosBusqueda.minimo=e.target.value;
+    datosBusqueda.minimo=parseInt(e.target.value);
     filtrarAuto();
 });
 maximo.addEventListener('change',(e)=>{
-    datosBusqueda.maximo=e.target.value;
+    datosBusqueda.maximo=parseInt(e.target.value);
     filtrarAuto();
 });
 puertas.addEventListener('change',(e)=>{
-    datosBusqueda.puertas=e.target.value;
+    datosBusqueda.puertas=parseInt(e.target.value);
     filtrarAuto();
 });
 transmision.addEventListener('change',(e)=>{
@@ -101,11 +101,32 @@ function limpiarHTML(){
 
 //region FILTRAR
 function filtrarAuto(){
-    const resultado = autos.filter(filtrarMarca).filter(filtrarYear);
+    const resultado = autos
+                    .filter(filtrarMarca)
+                    .filter(filtrarYear)
+                    .filter(filtrarPrecioMinimo)
+                    .filter(filtrarPrecioMaximo)
+                    .filter(filtrarNumeroPuertas)
+                    .filter(filtrarTransmision)
+                    .filter(filtrarColor);
     
-    mostrarAutos(resultado);
+    if(resultado.length){
+        mostrarAutos(resultado);
+    }else{
+        noResultado();
+    }
 }
 
+
+function noResultado(){
+    limpiarHTML();
+    const noResultado=document.createElement('div');
+    noResultado.classList.add('alerta','error');
+    noResultado.textContent='No hay resultados';
+    resultado.appendChild(noResultado);
+}
+
+//region MONTON DE FILTROS
 function filtrarMarca(auto){ //el parametro auto se pasa automaticamente cuando lo llamas desde filtrarAuto()
     const {marca}=datosBusqueda;
 
@@ -122,4 +143,52 @@ function filtrarYear(auto){ //el parametro auto se pasa automaticamente cuando l
         return auto.year === year;
     }
     return auto; //si no seleccionan nada les damos todos los automoviles
+}
+
+function filtrarPrecioMinimo(auto){
+    const {minimo} = datosBusqueda;
+
+    if(minimo){
+        return auto.precio>=minimo; 
+    }
+
+    return auto;
+}
+
+function filtrarPrecioMaximo(auto){
+    const {maximo} = datosBusqueda;
+
+    if(maximo){
+        return auto.precio<maximo; 
+    }
+
+    return auto;
+}
+
+function filtrarNumeroPuertas(auto){
+    const {puertas} = datosBusqueda;
+
+    if(puertas){
+        return auto.puertas===puertas; 
+    }
+
+    return auto;
+}
+
+function filtrarTransmision(auto){ 
+    const {transmision}=datosBusqueda;
+
+    if(transmision){ 
+        return auto.transmision === transmision;
+    }
+    return auto; 
+}
+
+function filtrarColor(auto){ 
+    const {color}=datosBusqueda;
+
+    if(color){ 
+        return auto.color === color;
+    }
+    return auto; 
 }
