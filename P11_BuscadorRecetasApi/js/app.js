@@ -41,6 +41,13 @@ function inicarApp() {
 
     //region __Show Recetas
     function mostrarRecetas(recetas = []) {
+        limparHTML(resultado);
+
+        const heading = document.createElement('H2');
+        heading.classList.add('text-center', 'text-black', 'my-5');
+        heading.textContent = recetas.length ? ` Resultados:  ${recetas.length}` : 'No hay Resultados';
+        resultado.appendChild(heading);
+
         recetas.forEach(receta => {
             const { idMeal, strMeal, strMealThumb } = receta;
 
@@ -77,5 +84,12 @@ function inicarApp() {
 
             resultado.appendChild(recetaContenedor);
         });
+    }
+
+    //region __Limpiar HTML
+    function limparHTML(selector) {
+        while (selector.firstChild) {
+            selector.removeChild(selector.firstChild);
+        }
     }
 }
