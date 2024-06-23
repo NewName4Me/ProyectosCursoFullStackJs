@@ -146,6 +146,7 @@ function inicarApp() {
             if (existeStorage(idMeal)) {
                 eliminarFavorit(idMeal);
                 btnFavorito.textContent = 'Guardar Favorito';
+                mostrarToast('Eliminado correctamente');
                 return;
             }
             agregarFavorito({
@@ -154,6 +155,7 @@ function inicarApp() {
                 ima: strMealThumb,
             });
             btnFavorito.textContent = 'Eliminar Favorito';
+            mostrarToast('Agregado Correctamente');
         }
 
         //cerrar
@@ -186,6 +188,16 @@ function inicarApp() {
     function existeStorage(id) {
         const favoritos = JSON.parse(localStorage.getItem('favoritos')) ?? [];
         return favoritos.some(favorito => favorito.id === id);
+    }
+
+    //region __Show Toast
+    function mostrarToast(mensaje) {
+        const toastDiv = document.querySelector('#toast');
+        const toastBody = document.querySelector('.toast-body');
+        toastBody.textContent = mensaje;
+
+        const toast = new bootstrap.Toast(toastDiv);
+        toast.show();
     }
 
     //region __Limpiar HTML
