@@ -103,7 +103,6 @@ function inicarApp() {
 
     //region __Show Receta Modal
     function mostrarRecetaModal(receta) {
-        console.log(receta);
         const { idMeal, strInstructions, strMeal, strMealThumb } = receta;
         const modalTitle = document.querySelector('#modal .modal-title');
         const modalBody = document.querySelector('#modal .modal-body');
@@ -134,7 +133,59 @@ function inicarApp() {
 
         modalBody.appendChild(listGroup);
 
+        //botones de cerrar y favorito
+        const modalFooter = document.querySelector('.modal-footer');
+        limparHTML(modalFooter);
+
+        //favorito
+        const btnFavorito = document.createElement('BUTTON');
+        btnFavorito.classList.add('btn', 'btn-danger', 'col');
+        btnFavorito.textContent = existeStorage(idMeal) ? 'Eliminar Favorito' : 'Guardar Favorito';
+
+        btnFavorito.onclick = function () {
+            if (existeStorage(idMeal)) {
+                eliminarFavorit(idMeal);
+                btnFavorito.textContent = 'Guardar Favorito';
+                return;
+            }
+            agregarFavorito({
+                id: idMeal,
+                titulo: strMeal,
+                ima: strMealThumb,
+            });
+            btnFavorito.textContent = 'Eliminar Favorito';
+        }
+
+        //cerrar
+        const btnCerrarModal = document.createElement('BUTTON');
+        btnCerrarModal.classList.add('btn', 'btn-secondary', 'col');
+        btnCerrarModal.textContent = 'Cerrar';
+
+        btnCerrarModal.onclick = () => modal.hide();
+
+        modalFooter.appendChild(btnFavorito);
+        modalFooter.appendChild(btnCerrarModal);
+
         modal.show();
+    }
+
+    //region __Agregar Favorito
+    function agregarFavorito(receta = {}) {
+        const favoritos = JSON.parse(localStorage.getItem('favoritos')) ?? [];
+        localStorage.setItem('favoritos', JSON.stringify([...favoritos, receta]));
+    }
+
+    //region __Eliminar Favorito
+    function eliminarFavorit(id) {
+        const favoritos = JSON.parse(localStorage.getItem('favoritos')) ?? [];
+        const nuevosFavoritos = favoritos.filter(favorito => favorito.id !== id);
+        localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
+    }
+
+    //region __Existe Storage
+    function existeStorage(id) {
+        const favoritos = JSON.parse(localStorage.getItem('favoritos')) ?? [];
+        return favoritos.some(favorito => favorito.id === id);
     }
 
     //region __Limpiar HTML
