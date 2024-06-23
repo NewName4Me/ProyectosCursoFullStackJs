@@ -7,12 +7,18 @@ function inicarApp() {
     const resultado = document.querySelector('#resultado');
 
     const selectCategorias = document.querySelector('#categorias');
-    selectCategorias.addEventListener('change', selectCategoria);
+    if (selectCategorias) { //condicinal prevenir error en pagina de favoritos
+        selectCategorias.addEventListener('change', selectCategoria);
+        //region __Get Categorias
+        obtenerCategorias();
+    }
+    const favoritosDiv = document.querySelector('.favoritos');
+    if (favoritosDiv) {
+        obtenerFavoritos();
+    }
 
     const modal = new bootstrap.Modal('#modal', {});
 
-    //region __Get Categorias
-    obtenerCategorias();
     function obtenerCategorias() {
         const url = 'https://www.themealdb.com/api/json/v1/1/categories.php';
         fetch(url)
@@ -61,15 +67,15 @@ function inicarApp() {
 
             const recetaImagen = document.createElement('IMG');
             recetaImagen.classList.add('card-img-top');
-            recetaImagen.alt = `Imagen de la receta ${strMealThumb}`;
-            recetaImagen.src = strMealThumb;
+            recetaImagen.alt = `Imagen de la receta ${strMealThumb ?? receta.titulo}`;
+            recetaImagen.src = strMealThumb ?? receta.ima;
 
             const recetaCardBody = document.createElement('DIV');
             recetaCardBody.classList.add('card-body');
 
             const recetaHeading = document.createElement('H3');
             recetaHeading.classList.add('card-title', 'mb-3');
-            recetaHeading.textContent = strMeal;
+            recetaHeading.textContent = strMeal ?? receta.titulo;
 
             const recetaButton = document.createElement('BUTTON');
             recetaButton.classList.add('btn', 'btn-danger', 'w-100');
@@ -77,7 +83,7 @@ function inicarApp() {
             /* recetaButton.dataset.bsTarget = "#modal";
             recetaButton.dataset.bsToggle = "modal"; */
             recetaButton.onclick = function () {
-                seleccionarReceta(idMeal)
+                seleccionarReceta(idMeal ?? receta.id)
             }
 
             //inyectar en el codigo HTML
@@ -198,6 +204,20 @@ function inicarApp() {
 
         const toast = new bootstrap.Toast(toastDiv);
         toast.show();
+    }
+
+    //region __Get Favoritos
+    function obtenerFavoritos() {
+        const favoritos = JSON.parse(localStorage.getItem('favoritos')) ?? [];
+        if (favoritos.length) {
+            mostrarRecetas(favoritos);
+            return;
+        }
+        const noFavoritos = document.createElement('P');
+        noFavoritos.textContent = 'No hay favoritos';
+        noFavoritos.classList.add('font-bold', 'text-center', 'fs-4', 'mt-5');
+        resultado.appendChild(noFavoritos);
+
     }
 
     //region __Limpiar HTML
