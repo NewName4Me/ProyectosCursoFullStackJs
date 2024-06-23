@@ -9,6 +9,8 @@ function inicarApp() {
     const selectCategorias = document.querySelector('#categorias');
     selectCategorias.addEventListener('change', selectCategoria);
 
+    const modal = new bootstrap.Modal('#modal', {});
+
     //region __Get Categorias
     obtenerCategorias();
     function obtenerCategorias() {
@@ -74,7 +76,7 @@ function inicarApp() {
             recetaButton.textContent = 'Ver receta';
             /* recetaButton.dataset.bsTarget = "#modal";
             recetaButton.dataset.bsToggle = "modal"; */
-            recetaButton.onclick = function(){
+            recetaButton.onclick = function () {
                 seleccionarReceta(idMeal)
             }
 
@@ -92,16 +94,27 @@ function inicarApp() {
     }
 
     //region __Select Receta
-    function seleccionarReceta(id){
+    function seleccionarReceta(id) {
         const url = `https://themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
         fetch(url)
             .then(respuesta => respuesta.json())
             .then(resultado => mostrarRecetaModal(resultado.meals[0]));
     }
 
-    //region Show Receta Modal
-    function mostrarRecetaModal(receta){
+    //region __Show Receta Modal
+    function mostrarRecetaModal(receta) {
+        const { idMeal, strInstructions, strMeal, strMealThumb } = receta;
+        const modalTitle = document.querySelector('#modal .modal-title');
+        const modalBody = document.querySelector('#modal .modal-body');
 
+        modalTitle.textContent = strMeal;
+        modalBody.innerHTML = `
+            <img class = "img-fluid" src = "${strMealThumb}" alt="receta ${strMeal}"/>
+            <h3 class = "my-3" >Instrucciones</h3>
+            <p>${strInstructions}</p>
+        `;
+
+        modal.show();
     }
 
     //region __Limpiar HTML
