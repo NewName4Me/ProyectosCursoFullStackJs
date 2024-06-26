@@ -1,8 +1,12 @@
 //region Variables
 const resultado = document.querySelector('#resultado');
 const formulario = document.querySelector('#formulario');
+const paginacionDiv = document.querySelector('#paginacion');
+
+
 const registrosPorPagina = 40;
 let totalPaginas;
+let iterador;
 
 //region DOM Loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -52,10 +56,40 @@ function buscarImagenes(termino) {
         });
 }
 
+//region Paginador
+function* crearPaginador(total) {
+    for (let i = 1; i <= total; i++) {
+        yield i;
+    }
+}
+
+//region Imprimir Paginador
+function imprimirPaginador() {
+    limpiarHTML(paginacionDiv);
+
+    iterador = crearPaginador(totalPaginas);
+
+    while (true) {
+        const { value, done } = iterador.next();
+
+        if (done) return;
+
+        // Generates a button for each element in the generator
+        const boton = document.createElement('BUTTON');
+        boton.href = '#';
+        boton.dataset.pagina = value;
+        boton.textContent = value;
+        boton.classList.add('siguiente', 'bg-yellow-400', 'px-4', 'py-1', 'mr-2', 'font-bold', 'uppercase', 'rounded', 'mb-10');
+
+        paginacionDiv.appendChild(boton);
+    }
+}
+
+
 //region Show Images
 function mostrarImagenes(imagenes) {
     limpiarHTML(resultado);
-    //iterar sobre lista de imagenes y construir html
+    // Iterate over the list of images and construct HTML
     imagenes.forEach(imagen => {
         const { previewURL, likes, views, largeImageURL } = imagen;
 
@@ -76,7 +110,10 @@ function mostrarImagenes(imagenes) {
             </div>
         `;
     });
+
+    imprimirPaginador();
 }
+
 
 //region Calcular Paginas
 function calcularPaginas(total) {
