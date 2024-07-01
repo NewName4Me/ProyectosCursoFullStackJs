@@ -23,7 +23,16 @@ function guardarCliente() {
         return;
     }
 
-    cliente = { ...cliente, mesa, hora, } //rellenar objecto con datos dados
+    //rellenar objecto con datos dados
+    cliente = { ...cliente, mesa, hora, }
+
+    //ocultar modal
+    const modalFomulario = document.querySelector('#formulario');
+    const modalBootstrap = bootstrap.Modal.getInstance(modalFomulario);
+    modalBootstrap.hide();
+
+    //mostrar las secciones
+    mostrarSecciones();
 }
 
 //region Show Alerta
@@ -40,4 +49,10 @@ function mostrarAlerta(mensaje, posicion) {
     setTimeout(() => {
         alerta.remove();
     }, 3000);
+}
+
+//region Show Secciones
+function mostrarSecciones() {
+    const seccionesOcultas = document.querySelectorAll('.d-none');
+    seccionesOcultas.forEach(seccion => seccion.classList.remove('d-none'));
 }
