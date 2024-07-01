@@ -2,6 +2,7 @@
 const monedaSelect = document.querySelector('#moneda');
 const criptoSelect = document.querySelector('#criptomonedas');
 const formulario = document.querySelector('#formulario');
+const resultado = document.querySelector('#resultado');
 
 const objBusqueda = {
     moneda: '',
@@ -53,11 +54,53 @@ function submitFormulario(e) {
     if (criptomoneda === '' || moneda === '') {
         mostrarAlerta('Ambos campos son obligatorios');
     }
+
+    //consultar la API con los resultados
+    consultarApi();
 }
 
 //region Read Value
 function leerValor(e) {
     objBusqueda[e.target.name] = e.target.value;
+}
+
+//region Consultar Api
+function consultarApi() {
+    const { criptomoneda, moneda } = objBusqueda;
+    const url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${criptomoneda},ETH&tsyms=${moneda}`;
+
+    mosstrarSpinner();
+
+    fetch(url)
+        .then(respuesta => respuesta.json())
+        .then(cotizacion => {
+            mostrarCotizacionHTML(cotizacion[criptomoneda][moneda]);
+        })
+}
+
+//region Show spinner()}
+function mosstrarSpinner() {
+    limpiarHTML(resultado);
+    const spinner = document.createElement('div');
+    spinner.classList.add('spinner');
+    spinner.innerHTML = `
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    `;
+
+    resultado.appendChild(spinner);
+}
+
+//region Show Cotizacion
+function mostrarCotizacionHTML(cotizacion) {
+    limpiarHTML(resultado);
+    const { criptomoneda, moneda } = objBusqueda;
+
+    const precio = document.createElement('p');
+    precio.classList.add('precio');
+    precio.innerHTML = `1 ${criptomoneda} son ${cotizacion}${moneda}`;
+    resultado.appendChild(precio);
 }
 
 //region Show Alerta
@@ -73,4 +116,11 @@ function mostrarAlerta(mensaje) {
     setTimeout(() => {
         divMensaje.remove();
     }, 2500);
+}
+
+//region Limpiar HTML
+function limpiarHTML(objeto) {
+    while (objeto.firstChild) {
+        objeto.removeChild(objeto.firstChild);
+    }
 }
