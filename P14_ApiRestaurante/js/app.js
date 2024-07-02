@@ -100,6 +100,12 @@ function mostrarPlatillos(listaPlatillos) {
         inputCantidad.id = `producto-${platillo.id}`;
         inputCantidad.classList.add('form-control');
 
+        //region __ Detect Plato Agregado
+        inputCantidad.onchange = () => { //para prevenir que se llame la funciona antes de agregar
+            const cantidad = parseInt(inputCantidad.value);
+            agregarPlatillo({ ...platillo, cantidad });
+        };
+
         const agregarInput = document.createElement('DIV');
         agregarInput.classList.add('col-md-2');
         agregarInput.appendChild(inputCantidad);
@@ -110,6 +116,32 @@ function mostrarPlatillos(listaPlatillos) {
         row.appendChild(agregarInput);
         contenido.appendChild(row);
     });
+}
+
+//region Add platillo
+function agregarPlatillo(producto = {}) {
+    let { pedido } = cliente;
+
+    //Revisar que la cantidad sea mayor a 0
+    if (producto.cantidad <= 0) return;
+
+    //comprueba si el elemento ya existe 
+    if (pedido.some(articulo => articulo.id === producto.id)) {
+        //actualizar la cantidad
+        const pedidoActualizado = pedido.map(articulo => {
+            if (articulo.id === producto.id) {
+                articulo.cantidad = producto.cantidad;
+            }
+            return articulo;
+        });
+
+        //se asigne el nuevo array a cliente.pedido
+        cliente.pedido = [...pedidoActualizado];
+    } else {
+        cliente.pedido = [...pedido, producto]
+    }
+
+    console.log(cliente.pedido);
 }
 
 //region limpiar HTML
