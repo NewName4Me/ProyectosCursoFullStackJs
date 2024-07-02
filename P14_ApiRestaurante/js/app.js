@@ -8,6 +8,12 @@ let cliente = {
     pedido: []
 }
 
+const categorias = {
+    1: 'Comida',
+    2: 'Bebidas',
+    3: 'Postres',
+}
+
 btnGuardarCliente.addEventListener('click', guardarCliente);
 
 //region Save Cliente
@@ -31,8 +37,8 @@ function guardarCliente() {
     const modalBootstrap = bootstrap.Modal.getInstance(modalFomulario);
     modalBootstrap.hide();
 
-    //mostrar las secciones
-    mostrarSecciones();
+    mostrarSecciones(); //mostrar las secciones
+    obtenerPlatillos();  //obtener platillos api jsonserver
 }
 
 //region Show Alerta
@@ -55,4 +61,48 @@ function mostrarAlerta(mensaje, posicion) {
 function mostrarSecciones() {
     const seccionesOcultas = document.querySelectorAll('.d-none');
     seccionesOcultas.forEach(seccion => seccion.classList.remove('d-none'));
+}
+
+//region Get Platillos
+function obtenerPlatillos() {
+    /* const url = `localhost:4000/platillos` */
+    const url = `https://raw.githubusercontent.com/NewName4Me/ProyectosCursoFullStackJs/master/P14_ApiRestaurante/js/db.json`;
+    fetch(url)
+        .then(respuesta => respuesta.json())
+        .then(resultado => mostrarPlatillos(resultado.platillos))
+        .catch(err => console.log(err));
+}
+
+//region Show Platillos
+function mostrarPlatillos(listaPlatillos) {
+    const contenido = document.querySelector('.contenido');
+
+    listaPlatillos.forEach(platillo => {
+        const row = document.createElement('DIV');
+        row.classList.add('row', 'py-3', 'border-top');
+
+        const nombre = document.createElement('DIV');
+        nombre.classList.add('col-md-4');
+        nombre.textContent = platillo.nombre;
+
+        const precio = document.createElement('DIV');
+        precio.classList.add('col-md-3', 'fw-bold');
+        precio.textContent = `$${platillo.precio}`;
+
+        const categoria = document.createElement('DIV');
+        categoria.classList.add('col-md-3');
+        categoria.textContent = categorias[platillo.categoria];
+
+        row.appendChild(nombre);
+        row.appendChild(precio);
+        row.appendChild(categoria);
+        contenido.appendChild(row);
+    });
+}
+
+//region limpiar HTML
+function limpiarHTML(objecto) {
+    while (objecto.firstChild) {
+        objecto.removeChild(objecto.firstChild)
+    }
 }
