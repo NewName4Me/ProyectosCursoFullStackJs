@@ -145,7 +145,93 @@ function agregarPlatillo(producto = {}) {
         cliente.pedido = [...resultado];
     }
 
-    console.log(cliente.pedido);
+    //actualizar la lista de platillo pedidos
+    actualizarResumen();
+}
+
+//region Update Resumen
+function actualizarResumen() {
+    const contenido = document.querySelector('#resumen .contenido');
+    limpiarHTML(contenido);
+
+    const resumen = document.createElement('DIV');
+    resumen.classList.add('col-md-6', 'card', 'py-5', 'px3', 'shadow');
+
+    //infromacion de la mesa
+    const mesa = document.createElement('P');
+    mesa.textContent = 'Mesa: ';
+    mesa.classList.add('fw-bold');
+
+    const mesaSpan = document.createElement('SPAN');
+    mesaSpan.textContent = cliente.mesa;
+    mesaSpan.classList.add('fw-normal');
+
+    //infromacion de la hora
+    const hora = document.createElement('P');
+    hora.textContent = 'Mesa: ';
+    hora.classList.add('fw-bold');
+
+    const horaSpan = document.createElement('SPAN');
+    horaSpan.textContent = cliente.hora;
+    horaSpan.classList.add('fw-normal');
+
+    //informacion titulo seccion
+    const heading = document.createElement('H3');
+    heading.textContent = 'Platillos consumidos';
+    heading.classList.add('my-4', 'text-center');
+
+    //iterar sobre los pedidos del array
+    const { pedido } = cliente;
+    const grupo = document.createElement('UL');
+    grupo.classList.add('list-group');
+
+    pedido.forEach(articulo => {
+        const { nombre, cantidad, precio, id } = articulo;
+
+        const lista = document.createElement('LI');
+        lista.classList.add('list-group-item');
+
+        const nombreEl = document.createElement('H4');
+        nombreEl.classList.add('my-4');
+        nombreEl.textContent = nombre;
+
+        const cantidadEl = document.createElement('P');
+        cantidadEl.classList.add('fw-bold');
+        cantidadEl.innerHTML = `Cantidad: <span class="fw-normal">${cantidad}</span>`;
+
+        const precioEl = document.createElement('P');
+        precioEl.classList.add('fw-bold');
+        precioEl.innerHTML = `Precio: $<span class="fw-normal">${precio}</span>`;
+
+        const subtotalEl = document.createElement('P');
+        subtotalEl.classList.add('fw-bold');
+        subtotalEl.innerHTML = `Subtotal: $<span class="fw-normal">${calcularSubtotal(precio, cantidad)}</span>`;
+
+        //agregar elementos al LI
+        lista.appendChild(nombreEl);
+        lista.appendChild(cantidadEl);
+        lista.appendChild(precioEl);
+        lista.appendChild(subtotalEl);
+
+        //agregar lista al grupo principal
+        grupo.appendChild(lista);
+    });
+
+    //appends
+    mesa.appendChild(mesaSpan);
+    hora.appendChild(horaSpan);
+
+    resumen.appendChild(mesa);
+    resumen.appendChild(hora);
+    resumen.appendChild(heading);
+    resumen.appendChild(grupo);
+
+    contenido.appendChild(resumen);
+}
+
+//region Math Subtotal
+function calcularSubtotal(precio, cantidad) {
+    return precio * cantidad;
 }
 
 //region limpiar HTML
