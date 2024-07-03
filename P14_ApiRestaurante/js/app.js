@@ -1,6 +1,7 @@
 //region Variables
 const btnGuardarCliente = document.querySelector('#guardar-cliente');
 const formulario = document.querySelector('.modal-body form');
+const contenido = document.querySelector('#resumen .contenido');
 
 let cliente = {
     mesa: '',
@@ -151,7 +152,6 @@ function agregarPlatillo(producto = {}) {
 
 //region Update Resumen
 function actualizarResumen() {
-    const contenido = document.querySelector('#resumen .contenido');
     limpiarHTML(contenido);
 
     const resumen = document.createElement('DIV');
@@ -207,11 +207,18 @@ function actualizarResumen() {
         subtotalEl.classList.add('fw-bold');
         subtotalEl.innerHTML = `Subtotal: $<span class="fw-normal">${calcularSubtotal(precio, cantidad)}</span>`;
 
+        //boton para eliminar
+        const btnEliminar = document.createElement('BUTTON');
+        btnEliminar.classList.add('btn', 'btn-danger');
+        btnEliminar.textContent = 'Eliminar del Pedido';
+        btnEliminar.onclick = () => eliminarProducto(id);
+
         //agregar elementos al LI
         lista.appendChild(nombreEl);
         lista.appendChild(cantidadEl);
         lista.appendChild(precioEl);
         lista.appendChild(subtotalEl);
+        lista.appendChild(btnEliminar);
 
         //agregar lista al grupo principal
         grupo.appendChild(lista);
@@ -232,6 +239,16 @@ function actualizarResumen() {
 //region Math Subtotal
 function calcularSubtotal(precio, cantidad) {
     return precio * cantidad;
+}
+
+//region Delete Producto
+function eliminarProducto(id) {
+    const { pedido } = cliente;
+    const pedidoActualizado = pedido.filter(articulo => articulo.id !== id);
+    cliente.pedido = [...pedidoActualizado];
+
+    limpiarHTML(contenido);
+    actualizarResumen();
 }
 
 //region limpiar HTML
