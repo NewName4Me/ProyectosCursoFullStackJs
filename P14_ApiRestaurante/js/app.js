@@ -146,13 +146,13 @@ function agregarPlatillo(producto = {}) {
         cliente.pedido = [...resultado];
     }
 
+    limpiarHTML(contenido);
     //actualizar la lista de platillo pedidos
-    actualizarResumen();
+    cliente.pedido.length ? actualizarResumen() : mensajePedidoVacio();
 }
 
 //region Update Resumen
 function actualizarResumen() {
-    limpiarHTML(contenido);
 
     const resumen = document.createElement('DIV');
     resumen.classList.add('col-md-6', 'card', 'py-5', 'px3', 'shadow');
@@ -248,7 +248,21 @@ function eliminarProducto(id) {
     cliente.pedido = [...pedidoActualizado];
 
     limpiarHTML(contenido);
-    actualizarResumen();
+    cliente.pedido.length ? actualizarResumen() : mensajePedidoVacio();
+
+    //regresamos la cantidad a 0 en el formulario
+    const productoEliminado = `#producto-${id}`;
+    const inputEliminado = document.querySelector(productoEliminado);
+    inputEliminado.value = 0;
+}
+
+//region mensajePedidovacio
+function mensajePedidoVacio() {
+    const texto = document.createElement('P');
+    texto.classList.add('text-center');
+    texto.textContent = 'Añade Productos al Pedido';
+
+    contenido.appendChild(texto);
 }
 
 //region limpiar HTML
