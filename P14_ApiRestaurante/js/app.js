@@ -257,6 +257,7 @@ function formularioPropinas() {
     radio10.name = 'propina';
     radio10.value = '10';
     radio10.classList.add('form-check-input');
+    radio10.onclick = () => calcularPropina();
 
     const radio10Label = document.createElement('LABEL');
     radio10Label.textContent = '10%';
@@ -271,6 +272,7 @@ function formularioPropinas() {
     radio25.name = 'propina';
     radio25.value = '25';
     radio25.classList.add('form-check-input');
+    radio25.onclick = () => calcularPropina();
 
     const radio25Label = document.createElement('LABEL');
     radio25Label.textContent = '25%';
@@ -285,6 +287,7 @@ function formularioPropinas() {
     radio50.name = 'propina';
     radio50.value = '50';
     radio50.classList.add('form-check-input');
+    radio50.onclick = () => calcularPropina();
 
     const radio50Label = document.createElement('LABEL');
     radio50Label.textContent = '50%';
@@ -309,6 +312,77 @@ function formularioPropinas() {
     formulario.appendChild(divFormulario);
 
     contenido.appendChild(formulario);
+}
+
+//region Math Propina
+function calcularPropina() {
+    const { pedido } = cliente;
+    let subtotal = 0;
+
+    //calcular subtotal a pagar
+    pedido.forEach(articulo => {
+        subtotal += articulo.cantidad + articulo.precio;
+    });
+
+    //seleccionar radio button con propina del cliente
+    const propinaSelecciona = document.querySelector('[name="propina"]:checked').value;
+
+    //calcular la propina
+    const propina = ((subtotal * parseInt(propinaSelecciona)) / 100);
+
+    //total 
+    const total = subtotal + propina;
+
+    mostrarTotalHTML(subtotal, total, propina);
+}
+
+//region Show total 
+function mostrarTotalHTML(subtotal, total, propina) {
+    const divTotales = document.createElement('DIV');
+    divTotales.classList.add('total-pagar', 'my-5');
+
+    //subtotal
+    const subtotalParrafo = document.createElement('P');
+    subtotalParrafo.classList.add('fs-4', 'fw-bold', 'mt-2');
+    subtotalParrafo.textContent = 'Subtotal Consummo: ';
+
+    const subtotalSpan = document.createElement('SPAN');
+    subtotalSpan.classList.add('fw-normal');
+    subtotalSpan.textContent = `$${subtotal}`;
+
+    //propina
+    const propinaParrafo = document.createElement('P');
+    propinaParrafo.classList.add('fs-4', 'fw-bold', 'mt-2');
+    propinaParrafo.textContent = 'Propina: ';
+
+    const propinaSpan = document.createElement('SPAN');
+    propinaSpan.classList.add('fw-normal');
+    propinaSpan.textContent = `$${propina}`;
+
+    //total
+    const totalParrafo = document.createElement('P');
+    totalParrafo.classList.add('fs-4', 'fw-bold', 'mt-2');
+    totalParrafo.textContent = 'Total: ';
+
+    const totalSpan = document.createElement('SPAN');
+    totalSpan.classList.add('fw-normal');
+    totalSpan.textContent = `$${total}`;
+
+    //limpiar el ultimo resultado
+    const totalPagarDiv = document.querySelector('.total-pagar');
+    if (totalPagarDiv) totalPagarDiv.remove();
+
+    //appends
+    subtotalParrafo.appendChild(subtotalSpan);
+    propinaParrafo.appendChild(propinaSpan);
+    totalParrafo.appendChild(totalSpan);
+
+    divTotales.appendChild(subtotalParrafo);
+    divTotales.appendChild(propinaParrafo);
+    divTotales.appendChild(totalParrafo);
+
+    const formularioGenerado = document.querySelector('.formulario > div');
+    formularioGenerado.appendChild(divTotales);
 }
 
 //region Math Subtotal
