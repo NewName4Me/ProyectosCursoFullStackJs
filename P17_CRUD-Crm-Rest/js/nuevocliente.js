@@ -1,4 +1,5 @@
 import { mostrarAlerta } from './funciones.js';
+import { nuevoCliente } from './API.js';
 
 //region IIFE
 (function () {
@@ -25,11 +26,16 @@ import { mostrarAlerta } from './funciones.js';
             return;
         }
 
+        //enviar Cliente a nuestra Api
+        nuevoCliente(cliente);
+
+        //resetar el formulario una vez pasada todas las validaciones
         formulario.reset();
     }
 
     //region Validar Objeto
     function validarObjeto(obj) {
+        //Comprobar que todos los campos han sido rellenados
         return !Object.values(obj).every(input => input !== '');
     }
 })();

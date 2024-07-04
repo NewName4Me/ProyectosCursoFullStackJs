@@ -1,3 +1,25 @@
 {
-  "clientes": []
+  "clientes": [
+    {
+      "id": "c08e",
+      "nombre": "Erik",
+      "email": "tortarod@gmail.com",
+      "telefono": "605589178",
+      "empresa": "gomowebs"
+    },
+    {
+      "id": "fc56",
+      "nombre": "Erik",
+      "email": "tortarod@gmail.com",
+      "telefono": "605589178",
+      "empresa": "gomowebs"
+    },
+    {
+      "id": "bd29",
+      "nombre": "clau",
+      "email": "clau@ifnao.con",
+      "telefono": "3213",
+      "empresa": "auriga"
+    }
+  ]
 }
