@@ -28,3 +28,14 @@ export const obtenerClientes = async () => {
         console.log(err);
     }
 }
+
+//region Delete Cliente
+export const eliminarCliente = async id => {
+    try {
+        await fetch(`${url}/${id}`, {
+            method: 'DELETE'
+        })
+    } catch (err) {
+        console.log(err);
+    }
+}

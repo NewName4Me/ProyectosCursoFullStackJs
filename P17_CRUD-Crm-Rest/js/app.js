@@ -1,9 +1,10 @@
-import { obtenerClientes } from './API.js';
+import { obtenerClientes, eliminarCliente } from './API.js';
 
 //region IIFE
 (function () {
 
     const listadoClientes = document.querySelector('#listado-clientes');
+    listadoClientes.addEventListener('click', confirmarEliminar);
 
     document.addEventListener('DOMContentLoaded', mostrarClientes);
 
@@ -34,5 +35,16 @@ import { obtenerClientes } from './API.js';
 
             listadoClientes.appendChild(row);
         });
+    }
+
+    function confirmarEliminar(e) {
+        if (e.target.classList.contains('eliminar')) {
+            const clienteId = e.target.dataset.cliente;
+            const confirmar = confirm('Deseas eliminar este registro?');
+
+            if (confirmar) {
+                eliminarCliente(clienteId)
+            }
+        }
     }
 })();
