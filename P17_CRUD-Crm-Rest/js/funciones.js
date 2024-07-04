@@ -17,3 +17,9 @@ export function mostrarAlerta(mensaje) {
         }, 3000);
     }
 }
+
+//region Validar Objeto
+export function validarObjeto(obj) {
+    //Comprobar que todos los campos han sido rellenados
+    return !Object.values(obj).every(input => input !== '');
+}

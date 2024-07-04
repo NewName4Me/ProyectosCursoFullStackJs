@@ -1,4 +1,4 @@
-import { mostrarAlerta } from './funciones.js';
+import { mostrarAlerta, validarObjeto } from './funciones.js';
 import { nuevoCliente } from './API.js';
 
 //region IIFE
@@ -31,11 +31,5 @@ import { nuevoCliente } from './API.js';
 
         //resetar el formulario una vez pasada todas las validaciones
         formulario.reset();
-    }
-
-    //region Validar Objeto
-    function validarObjeto(obj) {
-        //Comprobar que todos los campos han sido rellenados
-        return !Object.values(obj).every(input => input !== '');
     }
 })();

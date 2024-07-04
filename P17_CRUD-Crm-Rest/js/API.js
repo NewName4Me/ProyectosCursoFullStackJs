@@ -50,3 +50,20 @@ export const obtenerCliente = async id => {
         console.log(err);
     }
 }
+
+//region Update Registro
+export const editarCliente = async cliente => {
+    try {
+        await fetch(`${url}/${cliente.id}`, {
+            method: 'PUT', //tambien sirve PATCH(hacen lo mismo pero put reescribe el objeto completo patch es parcial)
+            body: JSON.stringify(cliente),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        window.location.href = 'index.html';
+    } catch (err) {
+        console.log(err);
+    }
+}

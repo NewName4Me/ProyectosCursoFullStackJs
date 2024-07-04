@@ -1,7 +1,8 @@
-import { obtenerCliente } from './API.js';
-
+import { obtenerCliente, editarCliente } from './API.js';
+import { validarObjeto, mostrarAlerta } from './funciones.js';
 //region IIFE
 (function () {
+
 
     //region Variables Formulario
     const nombreInput = document.querySelector('#nombre');
@@ -18,6 +19,10 @@ import { obtenerCliente } from './API.js';
         const cliente = await obtenerCliente(idCliente);
 
         mostrarCliente(cliente);
+
+        //submit al formulario
+        const formulario = document.querySelector('#formulario');
+        formulario.addEventListener('submit', validarCliente);
     });
 
     //region Display Cliente
@@ -29,5 +34,28 @@ import { obtenerCliente } from './API.js';
         empresaInput.value = empresa;
         telefonoInput.value = telefono;
         idHiddenInput.value = id;
+    }
+
+    //region Validar Cliente
+    function validarCliente(e) {
+        e.preventDefault();
+
+        /* object literal enhacenment */
+        const cliente = {
+            nombre: nombreInput.value,
+            email: emailInput.value,
+            telefono: telefonoInput.value,
+            empresa: empresaInput.value,
+            id: idHiddenInput.value,
+        };
+
+        //comprobar si algun campo esta vacio
+        if (validarObjeto(cliente)) {
+            mostrarAlerta('Todos los campos son obligatorios')
+            return;
+        }
+
+        //reescribe el objeto
+        editarCliente(cliente);
     }
 })();
