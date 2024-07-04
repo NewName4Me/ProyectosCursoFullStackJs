@@ -1,5 +1,6 @@
 const url = 'http://localhost:3000/clientes';
 
+//region Add Cliente
 export const nuevoCliente = async cliente => {
     try {
         await fetch(url, {
@@ -15,4 +16,15 @@ export const nuevoCliente = async cliente => {
     } catch (err) {
         console.log(err);
     }
-} 
+}
+
+//region Get Clientes
+export const obtenerClientes = async () => {
+    try {
+        const resultado = await fetch(url);
+        const clientes = await resultado.json();
+        return clientes;
+    } catch (err) {
+        console.log(err);
+    }
+}
