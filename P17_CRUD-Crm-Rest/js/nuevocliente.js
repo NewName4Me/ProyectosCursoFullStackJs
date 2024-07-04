@@ -1,3 +1,5 @@
+import { mostrarAlerta } from './funciones.js';
+
 //region IIFE
 (function () {
 
@@ -19,12 +21,15 @@
 
         //comprobar si algun campo esta vacio
         if (validarObjeto(cliente)) {
+            mostrarAlerta('Todos los campos son obligatorios')
             return;
         }
+
+        formulario.reset();
     }
 
     //region Validar Objeto
     function validarObjeto(obj) {
-        return Object.values(obj).every(input => input !== '');
+        return !Object.values(obj).every(input => input !== '');
     }
 })();
