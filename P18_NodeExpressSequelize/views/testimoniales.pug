@@ -18,14 +18,14 @@ block contenido
                         form(action="/testimoniales" method="POST")
                             div.form-group
                                 label(for="nombre") Nombre
-                                input#nombre(type="text",placeholder="Tu nombre",name="nombre",class="form-control") 
+                                input#nombre(type="text",placeholder="Tu nombre",name="nombre",class="form-control", value=nombre) 
 
                             div.form-group
                                     label(for="correo") Correo
-                                    input#correo(type="text",placeholder="Tu correo",name="correo",class="form-control") 
+                                    input#correo(type="text",placeholder="Tu correo",name="correo",class="form-control" ,value=correo) 
 
                             div.form-group
                                 label(for="mensaje") Mensaje
-                                textarea#mensaje(name="mensaje", class="form-control", rows="3", placeholder="Tu mensaje")
+                                textarea#mensaje(name="mensaje", class="form-control", rows="3", placeholder="Tu mensaje")=mensaje
 
                             input.btn.btn-success.btn-block(type="submit",value="Enviar Reseña")

@@ -1,4 +1,7 @@
-const guardarTestimonial = (req, res) => {
+import { Sequelize } from 'sequelize';
+import { Testimoniales } from '../models/Testimoniales.js';
+
+const guardarTestimonial = async (req, res) => {
     const { nombre, correo, mensaje } = req.body;
     const errores = [];
 
@@ -9,8 +12,23 @@ const guardarTestimonial = (req, res) => {
     if (errores.length > 0) {
         res.render('testimoniales', {
             pagina: 'Testimoniales',
-            errores
+            errores,
+            nombre,
+            correo,
+            mensaje
         });
+    } else {
+        //almacenarlo en la base de datos
+        try {
+            await Testimoniales.create({
+                nombre,
+                correo,
+                mensaje
+            });
+            res.redirect('testimoniales');
+        } catch (e) {
+            console.log(e);
+        }
     }
 };
 
