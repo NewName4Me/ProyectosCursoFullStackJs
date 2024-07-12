@@ -4,17 +4,25 @@ block contenido
     main.container.mt-5 
             h1.text-center #{pagina}
             div.row 
-                h2.d-block.w-100.text-center Agrega un Testimonial
+
+                div.col-md-12
+                    h2.d-block.w-100.text-center Agrega un Testimonial
+
+                    //Comprobar si existen errores en el formulario para mostrar alerta
+                    if(errores)
+                        each error in errores
+                            div.alert.col.alert-danger.text-center= error.mensaje
+
                 div.row.justify-content-center.col
                     div.col-md-8
-                        form(action="" method="post")
+                        form(action="/testimoniales" method="POST")
                             div.form-group
                                 label(for="nombre") Nombre
                                 input#nombre(type="text",placeholder="Tu nombre",name="nombre",class="form-control") 
 
                             div.form-group
                                     label(for="correo") Correo
-                                    input#correo(type="text",placeholder="Tu correo",name="Correo",class="form-control") 
+                                    input#correo(type="text",placeholder="Tu correo",name="correo",class="form-control") 
 
                             div.form-group
                                 label(for="mensaje") Mensaje
