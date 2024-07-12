@@ -1,6 +1,20 @@
 extends ./layout/index
 
+block slider
+    div.slider 
+        h1 Río de Janerio 
+        em Aventura    
+
 block contenido 
     main.container.mt-5 
+        h2.text-center.mb-5 Sobre Nosotros
         div.row
-            h1 #{pagina}
+            div.col-md-6
+                p Lorem fistrum a gramenawer ex enim duis ullamco laboris a wan tempor al ataquerl. Ese hombree hasta luego Lucas apetecan eiusmod diodenoo eiusmod quis tempor ut duis apetecan.  
+                p Lorem fistrum a gramenawer ex enim duis ullamco laboris a wan tempor al ataquerl. Ese hombree hasta luego Lucas apetecan eiusmod diodenoo eiusmod quis tempor ut duis apetecan. 
+            div.col-md-6
+                img(src="/img/inicio_nosotros.jpg", alt="imagen nosotros" class="img-fluid")
+
+        hr
+
+        include ./layout/bloque_viajes
