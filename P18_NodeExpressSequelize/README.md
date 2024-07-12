@@ -4,3 +4,5 @@
 + instalar primera dependecia => express => npm i express
 + dependencia de desaroolo =>npm i --save-dev nodemon
 + En index.js configuramos express
++ Template Engine es la V del MVC => más popular en node : PUG , tambien esta EJS o HBS o REACT sin JS sjjs
++ npm i pug
