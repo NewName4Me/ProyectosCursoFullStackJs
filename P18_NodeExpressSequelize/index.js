@@ -1,8 +1,15 @@
 /* const express = require('express'); *//* sintaxis common js */
 import express from 'express'; /* version de imports */
 import router from './routes/index.js';
+import db from './config/db.js';
+import e from 'express';
 
 const app = express();
+
+//conectar la base de datos
+db.authenticate()
+    .then(() => console.log('Base de datos conectada'))
+    .catch(error => console.log(error))
 
 //definir puerto
 const port = process.env.PORT || 4000;
