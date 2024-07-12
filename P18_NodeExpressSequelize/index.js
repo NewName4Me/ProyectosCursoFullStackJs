@@ -2,7 +2,6 @@
 import express from 'express'; /* version de imports */
 import router from './routes/index.js';
 import db from './config/db.js';
-import e from 'express';
 
 const app = express();
 
