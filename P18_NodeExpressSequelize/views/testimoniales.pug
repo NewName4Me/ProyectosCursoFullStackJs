@@ -3,6 +3,17 @@ extends ./layout/index
 block contenido 
     main.container.mt-5 
             h1.text-center #{pagina}
+
+            blockquote.text-center Lee sobre nuestros clientes y sus Experiencias
+            div.row.testimoniales
+                each testimonial in testimoniales
+                    div.col-md-6.col-lg-4.mb-4
+                        div.card 
+                            div.card-body   
+                                blockquote.blockquote
+                                p.mb-0 #{testimonial.mensaje}
+                                footer.blockquote-footer #{testimonial.nombre}
+
             div.row 
 
                 div.col-md-12
