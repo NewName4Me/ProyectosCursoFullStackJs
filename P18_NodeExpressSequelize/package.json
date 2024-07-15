@@ -4,12 +4,14 @@
   "description": "proyecto full stack node express sequalize",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "type": "module",
   "author": "erik tortajada rodríguez",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "mysql2": "^3.10.2",
     "pug": "^3.0.3",
