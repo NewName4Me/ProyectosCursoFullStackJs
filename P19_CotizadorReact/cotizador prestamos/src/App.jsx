@@ -9,11 +9,17 @@ function App() {
   const [cantidad, setCantidad] = useState(10000);
   const [meses, setMeses] = useState(6);
   const [total, setTotal] = useState(0);
+  const [pago, setPago] = useState(0);
 
   useEffect(() => {
     const resultadoTotalApagar = calcularTotalPagar(cantidad, Number(meses));
     setTotal(resultadoTotalApagar);
   }, [cantidad, meses]);
+
+  useEffect(() => {
+    //calcular el pago mensual
+    setPago(total / meses);
+  }, [total]);
 
   const MIN = 0;
   const MAX = 20000;
@@ -81,9 +87,9 @@ function App() {
         <div className="my-5 space-y-3 bg-gray-50 p-5">
           <h2 className="text-2xl font-extrabold text-gray-500 text-center">
             Resumen<span className="text-indigo-500"> de pagos</span>
-            <p className="text-xl text-gray-500 text-center font-bold">Meses</p>
+            <p className="text-xl text-gray-500 text-center font-bold">{meses} Meses</p>
             <p className="text-xl text-gray-500 text-center font-bold">{formatearDinero(total)} Total a pagar</p>
-            <p className="text-xl text-gray-500 text-center font-bold">Mensuales</p>
+            <p className="text-xl text-gray-500 text-center font-bold">{formatearDinero(pago)} Mensuales</p>
           </h2>
         </div>
       </div>
