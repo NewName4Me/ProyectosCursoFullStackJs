@@ -11,3 +11,5 @@
 + P12_Api Buscador Imagenes Pixabay: https://tortarodbuscadorimagenespixabayapi.netlify.app/
 + P13_Api Cotizador de Monedas: https://tortarodcotizadormonedasapi.netlify.app/
 + P14_Api Restaurante Platos y Propinas: https://tortarodrestauranteplatosypropinas.netlify.app/
++ P18_NodeExpressSequelize web:https://agencia-de-viajes-fullstack.onrender.com
++ P19_Cotizador Prestamos React:https://tortarodcotizadorprestamoreact.netlify.app/
