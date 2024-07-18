@@ -1,12 +1,19 @@
 import Header from "./components/Header";
 import Button from "./components/Button";
-import { formatearDinero } from "./helpers/index.js";
-import { useState } from 'react';
+import { formatearDinero, calcularTotalPagar } from "./helpers/index.js";
+import { useState, useEffect } from 'react';
 
 function App() {
 
   /* state es para valores que se van a modificar */
   const [cantidad, setCantidad] = useState(10000);
+  const [meses, setMeses] = useState(6);
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    const resultadoTotalApagar = calcularTotalPagar(cantidad, Number(meses));
+    setTotal(resultadoTotalApagar);
+  }, [cantidad, meses]);
 
   const MIN = 0;
   const MAX = 20000;
@@ -14,7 +21,7 @@ function App() {
 
   //funcion encargada de manejar el valor de nuestro range
   function handleChange(e) {
-    setCantidad(e.target.value);
+    setCantidad(Number(e.target.value));
   }
 
   function handlerClickDecremento() {
@@ -25,7 +32,7 @@ function App() {
 
   function handlerClickIncremento() {
     const valor = cantidad + STEP;
-    if (valor > MAX) { alert('Cantidad No Válida'); return; }
+    if (valor >= MAX) { alert('Cantidad No Válida'); return; }
     setCantidad(valor);
   }
 
@@ -58,15 +65,27 @@ function App() {
           Elige un <span className="text-indigo-500">plazo</span> a pagar
         </h2>
 
-        <select 
-        name="" id=""
-        className="mt-5 w-full bg-white border-gray-300 rounded-lg text-center text-xl 
-        font-bold text-gray-500" 
+        <select
+          name="" id=""
+          className="mt-5 w-full bg-white border-gray-300 rounded-lg text-center text-xl 
+        font-bold text-gray-500"
+          value={meses}
+          onChange={e => setMeses(e.target.value)}
         >
           <option value="6">6 meses</option>
           <option value="12">12 meses</option>
           <option value="24">24 meses</option>
         </select>
+
+
+        <div className="my-5 space-y-3 bg-gray-50 p-5">
+          <h2 className="text-2xl font-extrabold text-gray-500 text-center">
+            Resumen<span className="text-indigo-500"> de pagos</span>
+            <p className="text-xl text-gray-500 text-center font-bold">Meses</p>
+            <p className="text-xl text-gray-500 text-center font-bold">{formatearDinero(total)} Total a pagar</p>
+            <p className="text-xl text-gray-500 text-center font-bold">Mensuales</p>
+          </h2>
+        </div>
       </div>
     </>
   )
